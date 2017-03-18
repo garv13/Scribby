@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure.MobileServices;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +23,22 @@ namespace Scribby
     /// </summary>
     public sealed partial class StorePage : Page
     {
+
+        private IMobileServiceTable<Pack> Table = App.MobileService.GetTable<Pack>();
+        private MobileServiceCollection<Pack,Pack> items;
+        private int page = 0;
+
         public StorePage()
         {
             this.InitializeComponent();
+            Loaded += StorePage_Loaded;
+        }
+
+        Pack i = new Pack();
+        private async void StorePage_Loaded(object sender, RoutedEventArgs e)
+        {
+            items = await Table.Skip(l * 15).Take(15).Where(Pack
+                          => Pack.InStore == true).ToCollectionAsync();
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)

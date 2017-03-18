@@ -8,6 +8,7 @@ namespace Scribby
 {
     class Pack
     {
+        public bool InStore { get; set; }
         public string Id { get; set; }
 
         public string PackId { get; set; }
