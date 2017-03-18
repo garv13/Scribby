@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure.MobileServices;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace Scribby
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
-
+        public static MobileServiceClient MobileService = new MobileServiceClient("http://vrdreamer.azurewebsites.net");
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.

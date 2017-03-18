@@ -23,7 +23,7 @@ namespace Scribby
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        Magnetometer mg;
+        
         MediaCapture _mediaCapture;
         bool _isPreviewing;
         double yawangle = 330;
@@ -44,7 +44,7 @@ namespace Scribby
             i = 0;
             yaw5 = 0; pitch5 = 0;
             or = OrientationSensor.GetDefault();
-            mg = Magnetometer.GetDefault();
+           
             c = Compass.GetDefault();
             //mg.ReadingChanged += Mg_ReadingChanged;
             c.ReportInterval = 4;
@@ -69,7 +69,7 @@ namespace Scribby
             var accessStatus = await Geolocator.RequestAccessAsync();
 
         }
-
+        
         private void C_ReadingChanged(Compass sender, CompassReadingChangedEventArgs args)
         {
             CompassReading reading = args.Reading;
