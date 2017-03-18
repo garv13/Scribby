@@ -124,7 +124,7 @@ namespace Scribby
             temppitch = pitch;
             tempyaw = yaw;
             await Get_Img_Url();
-            im.Source = new BitmapImage(new Uri(url));
+            im.Source = new BitmapImage(new Uri(url)); // this is the image
             lol.Children.Add(im);
             t.X = (Math.Abs(yawangle - yaw)) * stepW;
             t.Y = (Math.Abs(pitcAngle - pitch)) * stepH;
