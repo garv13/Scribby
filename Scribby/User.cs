@@ -8,7 +8,7 @@ namespace Scribby
 {
     class User
     {
-
+        public string Id { get; set; }
         public string UserId { get; set; }
 
         public string UserName { get; set; }
@@ -19,6 +19,7 @@ namespace Scribby
 
         public float wallet { get; set; }
 
-
+        public string Purchases { get; set; }
+  
     }
 }
