@@ -26,5 +26,40 @@ namespace Scribby
         {
             this.InitializeComponent();
         }
+
+        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
+        }
+
+        private void MainPage_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage));
+        }
+
+        private void Canvas_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(CanvasPage));
+        }
+
+        private void Store_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(StorePage));
+        }
+
+        private void Notes_Botton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MyNotesPage));
+        }
+
+        private void About_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AboutPage));
+        }
+
+        private void SignOut_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SignUp));
+        }
     }
 }

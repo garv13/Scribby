@@ -7,7 +7,55 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <ResourceDictionary >
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SplitViewStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-    </Grid>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <SplitView x:Name="MySplitView" Background="#515151" DisplayMode="CompactOverlay" IsPaneOpen="False" 
+               CompactPaneLength="50" OpenPaneLength="150" >
+        <SplitView.Pane>
+            <StackPanel >
+                <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
+                    Width="50" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
+
+                <RadioButton x:Name="MainPage_Button" Tag="" Style="{StaticResource SplitViewNavButtonStyle}" Content="Main Page"
+                        Click="MainPage_Button_Click"/>
+
+                <RadioButton x:Name="Canvas_Button" Tag="" Content="Canvas" Style="{StaticResource SplitViewNavButtonStyle}"
+                        Click="Canvas_Button_Click"/>
+
+                <RadioButton x:Name="Store_Button" Tag="" Content="Store"
+                         Style="{StaticResource SplitViewNavButtonStyle}" Click="Store_Button_Click"/>
+
+                <RadioButton x:Name="Notes_Botton" Tag="" Content="My Notes"  Style="{StaticResource SplitViewNavButtonStyle}"
+                Click="Notes_Botton_Click"/>
+
+                <RadioButton x:Name="About_Button" Tag="" IsChecked="True" Content="About" Style="{StaticResource SplitViewNavButtonStyle}"
+                         Click="About_Button_Click"/>
+
+                <RadioButton x:Name="SignOut_Button" Tag="" Content="SignOut"
+                        Style="{StaticResource SplitViewNavButtonStyle}" Click="SignOut_Button_Click"/>
+
+            </StackPanel>
+        </SplitView.Pane>
+
+        <SplitView.Content>
+            <Grid Background="#292929">
+
+            </Grid>
+        </SplitView.Content>
+    </SplitView>
+
+    <Page.BottomAppBar>
+        <AppBar x:Name="Appbar" IsOpen="true" Visibility="Collapsed" IsSticky="True">
+            <StackPanel Orientation="Horizontal">
+                <AppBarButton Name="Button" Icon="Play" Label="Listen Pdf"/>
+            </StackPanel>
+        </AppBar>
+    </Page.BottomAppBar>
 </Page>
