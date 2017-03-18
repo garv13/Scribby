@@ -6,8 +6,10 @@ using Windows.Devices.Geolocation;
 using Windows.Devices.Sensors;
 using Windows.Graphics.Display;
 using Windows.Media.Capture;
+using Windows.Storage;
 using Windows.System.Display;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -23,7 +25,7 @@ namespace Scribby
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        
+        string url = "";
         MediaCapture _mediaCapture;
         bool _isPreviewing;
         double yawangle = 330;
@@ -94,7 +96,7 @@ namespace Scribby
             im.RenderTransform = t;
         }
 
-        private void PreviewControl_Loaded(object sender, RoutedEventArgs e)
+        private async void PreviewControl_Loaded(object sender, RoutedEventArgs e)
         {
             wid = PreviewControl.ActualWidth;
             h = PreviewControl.ActualHeight;
@@ -121,7 +123,8 @@ namespace Scribby
             TranslateTransform t = new TranslateTransform();
             temppitch = pitch;
             tempyaw = yaw;
-            im.Source = new BitmapImage(new Uri("https://img.clipartfest.com/3c8ee7ee52b0c2385df4d27ad0f39270_10-facebook-like-thumbs-up-png-facebook-clipart-transparent-background_570-597.png"));
+            await Get_Img_Url();
+            im.Source = new BitmapImage(new Uri(url));
             lol.Children.Add(im);
             t.X = (Math.Abs(yawangle - yaw)) * stepW;
             t.Y = (Math.Abs(pitcAngle - pitch)) * stepH;
@@ -254,6 +257,19 @@ namespace Scribby
 
         }
 
+        public async Task Get_Img_Url()
+        {
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            StorageFile imgFile = await localFolder.CreateFileAsync("ImageFile.png", CreationCollisionOption.OpenIfExists); // image to be uploaded
+            if (imgFile != null)
+                // imgFile.DeleteAsync(); func to delete image put after upload completed
+                url = imgFile.Path;
+            else
+            {
+                MessageDialog msgbox = new MessageDialog("Some error occured please re capture the image");
+                await msgbox.ShowAsync();
+            }
+        }
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
@@ -283,7 +299,6 @@ namespace Scribby
         {
             Frame.Navigate(typeof(AboutPage));
         }
-
 
         private void SignOut_Button_Click(object sender, RoutedEventArgs e)
         {

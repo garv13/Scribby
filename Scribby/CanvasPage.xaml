@@ -45,16 +45,16 @@
         </SplitView.Pane>
 
         <SplitView.Content>
-            <Grid Background="#292929">
-
+            <Grid Background="White">
+                <InkCanvas x:Name="DrawingArea"/>
             </Grid>
         </SplitView.Content>
     </SplitView>
 
     <Page.BottomAppBar>
-        <AppBar x:Name="Appbar" IsOpen="true" Visibility="Collapsed" IsSticky="True">
+        <AppBar x:Name="Appbar" IsOpen="False" Visibility="Visible" IsSticky="True">
             <StackPanel Orientation="Horizontal">
-                <AppBarButton Name="Button" Icon="Play" Label="Listen Pdf"/>
+                <AppBarButton Name="NextBar" Icon="Save" Label="Save Image" Click="NextBar_Click"   />
             </StackPanel>
         </AppBar>
     </Page.BottomAppBar>
