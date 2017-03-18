@@ -45,7 +45,9 @@
         </SplitView.Pane>
 
         <SplitView.Content>
-            <Grid Background="#292929">
+            <Grid x:Name="lol" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <CaptureElement Name="PreviewControl" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
 
             </Grid>
         </SplitView.Content>
