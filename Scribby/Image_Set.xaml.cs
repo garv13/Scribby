@@ -69,8 +69,8 @@ namespace Scribby
             tim.Tick += Tim_Tick;
             //tim.Start();
             im = new Image();
-            im.Width = 60;
-            im.Height = 60;
+            im.Width = 300;
+            im.Height = 300;
             Loaded += Image_Set_Loaded;
             Application.Current.Suspending += Application_Suspending;
 
@@ -98,6 +98,8 @@ namespace Scribby
 
             await Get_Img_Url();
             im.Source = new BitmapImage(new Uri(url)); // this is the image
+            
+            lol.Children.Add(im);
         }
 
         private void Geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
