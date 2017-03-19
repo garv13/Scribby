@@ -70,7 +70,7 @@ namespace Scribby
                     await CachedFileManager.CompleteUpdatesAsync(imgFile);
                 if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
                 {
-                    Frame.Navigate(typeof(MainPage));
+                    Frame.Navigate(typeof(Image_Set));
                 }
                 else
                 {
