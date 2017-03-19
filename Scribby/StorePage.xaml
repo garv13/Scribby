@@ -13,7 +13,26 @@
                 <ResourceDictionary Source="SplitViewStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            </ResourceDictionary>
+            <DataTemplate x:Key="Standard3100x260ItemTemplate" ScrollViewer.VerticalScrollMode="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="400" Margin="10,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.4*"/>
+                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.3*"/>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image x:Name="img" Source="{Binding Image}" Height="100" Width="100" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="title" Text="{Binding Title}"  FontSize="20" Foreground="White" Grid.Row="0" Grid.Column="1" TextWrapping="WrapWholeWords" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,5,0,0"/>
+                    <TextBlock x:Name="authName" Text="{Binding Author}" FontSize="15" Foreground="White" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,5,0,0"/>
+                    <TextBlock x:Name="id" Visibility="Collapsed" Text="{Binding Id}" FontSize="15" Foreground="White" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,0,0"/>
+
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
     </Page.Resources>
 
     <SplitView x:Name="MySplitView" Background="#515151" DisplayMode="CompactOverlay" IsPaneOpen="False" 
@@ -45,9 +64,65 @@
         </SplitView.Pane>
 
         <SplitView.Content>
-            <Grid Background="#292929">
-              
-            </Grid>
+            <Pivot Background="#292929" Title="Store">
+                <PivotItem Header="Packs" Foreground="White">
+                    <Grid Background="#292929">
+                        <Grid.RowDefinitions>
+
+                            <RowDefinition Height="*"/>
+
+                        </Grid.RowDefinitions>
+                        <ProgressBar Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LoadingBar"/>
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition Height="0.9*"/>
+                                <RowDefinition Height="0.1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.9*"/>
+                                <ColumnDefinition Width="0.1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox VerticalAlignment="Stretch" Background="#B5B5B5" HorizontalAlignment="Stretch"
+                                      x:Name="Box"   
+                                      
+                           />
+                            <Button x:Name="SearchButton" Click="Button_Click" Grid.Column="1" Background="#0D4FB5" Foreground="White" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+                                <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="Assets/search-icon-hi.png"/>
+                            </Button>
+                            <GridView         
+                     Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                        HorizontalAlignment="Stretch"
+                        x:Name="StoreListView"
+                        VerticalAlignment="Stretch"
+                        ItemsSource="{Binding}"                        ItemTemplate="{StaticResource Standard3100x260ItemTemplate}"
+                        SelectionMode="None"          
+                        IsSwipeEnabled="false"
+                        IsItemClickEnabled="True"
+                        ItemClick="StoreListView_ItemClick"
+                        ScrollViewer.HorizontalScrollMode="Auto"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollMode="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        Visibility="Visible"
+                      >
+                            </GridView>
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.3*"/>
+                                    <ColumnDefinition Width="0.3*"/>
+                                    <ColumnDefinition Width="0.3*"/>
+                                </Grid.ColumnDefinitions>
+                                <HyperlinkButton Margin="15"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0"  Click="HyperlinkButton_Click_1" Content="Previous page" FontSize="{StaticResource SplitViewLargeNavFontSize}" Foreground="White" />
+                                <HyperlinkButton Margin="15"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="3" Click="HyperlinkButton_Click"  Content="Next Page" FontSize="{StaticResource SplitViewLargeNavFontSize}" Foreground="White" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </PivotItem>
+               
+            </Pivot>
         </SplitView.Content>
     </SplitView>
 
