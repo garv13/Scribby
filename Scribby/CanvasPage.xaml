@@ -2,6 +2,7 @@
     x:Class="Scribby.CanvasPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   xmlns:media="using:Syncfusion.UI.Xaml.Controls.Media"
     xmlns:local="using:Scribby"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -45,8 +46,13 @@
         </SplitView.Pane>
 
         <SplitView.Content>
-            <Grid Background="White">
-                <InkCanvas x:Name="DrawingArea"/>
+            <Grid>
+            <Grid x:Name="Canvas_grid" Background="White" Visibility="Visible">
+                    <InkCanvas x:Name="DrawingArea"/>
+            </Grid>
+                <Grid x:Name="Color_Grid" Background="White" Visibility="Collapsed">
+                    <media:SfColorPicker x:Name="colorPicker"/>
+                </Grid>
             </Grid>
         </SplitView.Content>
     </SplitView>
@@ -55,6 +61,10 @@
         <AppBar x:Name="Appbar" IsOpen="False" Visibility="Visible" IsSticky="True">
             <StackPanel Orientation="Horizontal">
                 <AppBarButton Name="NextBar" Icon="Save" Label="Save Image" Click="NextBar_Click"   />
+                <AppBarButton Name="ColorSelect" Icon="FontColor" Label="Change Color" Click="ColorSelect_Click"   />
+                <AppBarButton Name="ColorSelectDone" Icon="FontColor" Label="Select Color" Click="ColorSelectDone_Click" Visibility="Collapsed"  />
+
+
             </StackPanel>
         </AppBar>
     </Page.BottomAppBar>

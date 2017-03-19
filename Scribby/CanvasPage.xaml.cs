@@ -8,6 +8,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Input.Inking;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -39,7 +40,7 @@ namespace Scribby
         {
             CanvasDevice device = CanvasDevice.GetSharedDevice();
             CanvasRenderTarget renderTarget = new CanvasRenderTarget(device, (int)DrawingArea.ActualWidth, (int)DrawingArea.ActualHeight, 96);
-
+            
             using (var ds = renderTarget.CreateDrawingSession())
             {
                 ds.Clear(Colors.Transparent);
@@ -115,6 +116,26 @@ namespace Scribby
         private void SignOut_Button_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SignUp));
+        }
+
+        private void ColorSelect_Click(object sender, RoutedEventArgs e)
+        {
+            Canvas_grid.Visibility = Visibility.Collapsed;
+            Color_Grid.Visibility = Visibility.Visible;
+            ColorSelectDone.Visibility = Visibility.Visible;
+        }
+
+        private void ColorSelectDone_Click(object sender, RoutedEventArgs e)
+        {
+            Canvas_grid.Visibility = Visibility.Visible;
+            Color_Grid.Visibility = Visibility.Collapsed;
+            ColorSelectDone.Visibility = Visibility.Collapsed;
+            InkDrawingAttributes drawingAttributes = new InkDrawingAttributes();
+            drawingAttributes.Color = colorPicker.SelectedColor;
+            drawingAttributes.IgnorePressure = false;
+            drawingAttributes.FitToCurve = true;
+            DrawingArea.InkPresenter.UpdateDefaultDrawingAttributes(drawingAttributes);
+
         }
     }
 }
