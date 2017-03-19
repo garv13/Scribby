@@ -27,7 +27,7 @@ namespace Scribby
         private IMobileServiceTable<Pack> Table = App.MobileService.GetTable<Pack>();
         private MobileServiceCollection<Pack,Pack> items;
         private int page = 0;
-
+        
         public StorePage()
         {
             this.InitializeComponent();
