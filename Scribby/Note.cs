@@ -14,9 +14,7 @@ namespace Scribby
 
         public bool store { get; set; }
 
-        public string PackId { get; set; }
-
-        public string gpr_coordinate { get; set; }
+        public string gps_coordinate { get; set; }
 
         public string Media_Type { get; set; }
 

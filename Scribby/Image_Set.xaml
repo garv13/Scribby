@@ -46,8 +46,10 @@
 
         <SplitView.Content>
             <Grid x:Name="lol" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                <CaptureElement Name="PreviewControl" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-
+                <StackPanel>
+                    <Button Height="50" HorizontalAlignment="Stretch" Content="lol" Click="Button_Click"/>
+                    <CaptureElement Name="PreviewControl" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                </StackPanel>
 
             </Grid>
         </SplitView.Content>
@@ -56,7 +58,7 @@
     <Page.BottomAppBar>
         <AppBar x:Name="Appbar" IsOpen="true" Visibility="Collapsed" IsSticky="True">
             <StackPanel Orientation="Horizontal">
-                <AppBarButton Name="Button" Icon="Play" Label="Listen Pdf"/>
+                <AppBarButton Name="Button" Icon="Add" Label="Add my Scribe" Click="Button_Click"/>
             </StackPanel>
         </AppBar>
     </Page.BottomAppBar>
