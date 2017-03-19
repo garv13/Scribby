@@ -247,9 +247,27 @@ namespace Scribby
             n.Like = 0;
             n.Media_Type = "Image";
             n.store = false;
-            n.PackId = null;
+           
             CompassReading reading = c.GetCurrentReading();
             n.Yaw  = reading.HeadingTrueNorth.Value;
+
+            OrientationSensorReading reading2 = or.GetCurrentReading();
+            SensorQuaternion q = reading2.Quaternion;   // get a reference to the object to avoid re-creating it for each access
+            double ysqr = q.Y * q.Y;
+            // roll (x-axis rotation)
+            double t0 = +2.0 * (q.W * q.X + q.Y * q.Z);
+            double t1 = +1.0 - 2.0 * (q.X * q.X + ysqr);
+
+            // pitch (y-axis rotati)
+            double t2 = +2.0 * (q.W * q.Y - q.Z * q.X);
+            t2 = t2 > 1.0 ? 1.0 : t2;
+            t2 = t2 < -1.0 ? -1.0 : t2;
+            double pitch = Math.Asin(t2);
+            pitch = pitch * 180 / Math.PI;
+
+            if (pitch < 0)
+                pitch += 360;
+
             var credentials = new StorageCredentials("vrdreamer", "lTD5XmjEhvfUsC/vVTLsl01+8pJOlMdF/ri7W1cNOydXwSdb8KQpDbiveVciOqdIbuDu6gJW8g44YtVjuBzFkQ==");
             var client = new CloudBlobClient(new Uri("https://vrdreamer.blob.core.windows.net/"), credentials);
             var container = client.GetContainerReference("first");
@@ -269,6 +287,8 @@ namespace Scribby
                 await blockBlob.UploadFromFileAsync(imgFile);
             }
             n.Media_Url = blockBlob.StorageUri.PrimaryUri.ToString();
+            n.Pitch = pitch;
+            n.UserId = "";
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)

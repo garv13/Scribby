@@ -9,12 +9,10 @@ namespace Scribby
 {
     class Pack
     {
-        public BitmapImage Image { get; set; }
+       
         public string Title { get; set; }
-        public bool InStore { get; set; }
         public string Id { get; set; }
-
-        public string PackId { get; set; }
+        public string notes { get; set; }
 
         public string UserId { get; set; }
 
