@@ -28,6 +28,9 @@ namespace Scribby
         string url = "";
         MediaCapture _mediaCapture;
         bool _isPreviewing;
+
+
+
         double yawangle = 330;
         double pitcAngle = 290;
         DisplayRequest _displayRequest;
@@ -45,8 +48,7 @@ namespace Scribby
         {
             i = 0;
             yaw5 = 0; pitch5 = 0;
-            or = OrientationSensor.GetDefault();
-           
+            or = OrientationSensor.GetDefault();         
             c = Compass.GetDefault();
             //mg.ReadingChanged += Mg_ReadingChanged;
             c.ReportInterval = 4;
@@ -69,9 +71,31 @@ namespace Scribby
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             var accessStatus = await Geolocator.RequestAccessAsync();
+            switch (accessStatus)
+            {
+                case GeolocationAccessStatus.Allowed:
+                   // _rootPage.NotifyUser("Waiting for update...", NotifyType.StatusMessage);
 
+                    // If DesiredAccuracy or DesiredAccuracyInMeters are not set (or value is 0), DesiredAccuracy.Default is used.
+                    Geolocator geolocator = new Geolocator { DesiredAccuracyInMeters=2,MovementThreshold=2 };
+
+                    // Subscribe to the StatusChanged event to get updates of location status changes.
+                    geolocator.PositionChanged += Geolocator_PositionChanged;
+
+                    // Carry out the operation.
+                    Geoposition pos = await geolocator.GetGeopositionAsync();
+
+                    break;
+            }
+
+
+       }
+
+        private void Geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
+        {
+           
         }
-        
+
         private void C_ReadingChanged(Compass sender, CompassReadingChangedEventArgs args)
         {
             CompassReading reading = args.Reading;
@@ -96,7 +120,7 @@ namespace Scribby
             im.RenderTransform = t;
         }
 
-        private async void PreviewControl_Loaded(object sender, RoutedEventArgs e)
+        private void PreviewControl_Loaded(object sender, RoutedEventArgs e)
         {
             wid = PreviewControl.ActualWidth;
             h = PreviewControl.ActualHeight;
@@ -123,7 +147,7 @@ namespace Scribby
             TranslateTransform t = new TranslateTransform();
             temppitch = pitch;
             tempyaw = yaw;
-            await Get_Img_Url();
+            
             im.Source = new BitmapImage(new Uri(url)); // this is the image
             lol.Children.Add(im);
             t.X = (Math.Abs(yawangle - yaw)) * stepW;
