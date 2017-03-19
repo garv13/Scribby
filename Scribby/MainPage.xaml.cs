@@ -93,7 +93,7 @@ namespace Scribby
 
         private void Geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
         {
-           
+          
         }
 
         private void C_ReadingChanged(Compass sender, CompassReadingChangedEventArgs args)
@@ -141,9 +141,7 @@ namespace Scribby
             t2 = t2 < -1.0 ? -1.0 : t2;
             double pitch = Math.Asin(t2);
             pitch = pitch * 180 / Math.PI;
-
-
-
+            
             TranslateTransform t = new TranslateTransform();
             temppitch = pitch;
             tempyaw = yaw;
@@ -281,19 +279,7 @@ namespace Scribby
 
         }
 
-        public async Task Get_Img_Url()
-        {
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            StorageFile imgFile = await localFolder.CreateFileAsync("ImageFile.png", CreationCollisionOption.OpenIfExists); // image to be uploaded
-            if (imgFile != null)
-                // imgFile.DeleteAsync(); func to delete image put after upload completed
-                url = imgFile.Path;
-            else
-            {
-                MessageDialog msgbox = new MessageDialog("Some error occured please re capture the image");
-                await msgbox.ShowAsync();
-            }
-        }
+        
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
