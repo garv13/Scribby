@@ -37,8 +37,20 @@ namespace Scribby
         Pack i = new Pack();
         private async void StorePage_Loaded(object sender, RoutedEventArgs e)
         {
-            items = await Table.Skip(l * 15).Take(15).Where(Pack
+            Pack temp;
+            items = await Table.Take(15).Where(Pack
                           => Pack.InStore == true).ToCollectionAsync();
+            foreach (Pack lol in items)
+            {
+                temp = new Pack();
+                temp.Id = lol.Id;
+                temp.Title = lol.Title;
+                temp.No_Of_Purchases = lol.No_Of_Purchases;
+                temp.Image = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(lol.Icon_Url));
+                temp.Price = lol.Price;
+//                StoreList.Add(temp);
+            }
+
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
