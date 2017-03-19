@@ -145,8 +145,8 @@ namespace Scribby
             TranslateTransform t = new TranslateTransform();
             temppitch = pitch;
             tempyaw = yaw;
-            
-            im.Source = new BitmapImage(new Uri(url)); // this is the image
+
+            im.Source = new BitmapImage(new Uri("https://img.clipartfest.com/3c8ee7ee52b0c2385df4d27ad0f39270_10-facebook-like-thumbs-up-png-facebook-clipart-transparent-background_570-597.png"));
             lol.Children.Add(im);
             t.X = (Math.Abs(yawangle - yaw)) * stepW;
             t.Y = (Math.Abs(pitcAngle - pitch)) * stepH;

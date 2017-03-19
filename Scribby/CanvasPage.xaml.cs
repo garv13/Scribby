@@ -31,7 +31,7 @@ namespace Scribby
             this.InitializeComponent();
             DrawingArea.InkPresenter.InputDeviceTypes =
        Windows.UI.Core.CoreInputDeviceTypes.Mouse |
-       Windows.UI.Core.CoreInputDeviceTypes.Pen;
+       Windows.UI.Core.CoreInputDeviceTypes.Pen | Windows.UI.Core.CoreInputDeviceTypes.Touch;
         }
 
 
@@ -70,7 +70,7 @@ namespace Scribby
                     await CachedFileManager.CompleteUpdatesAsync(imgFile);
                 if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
                 {
-                    Frame.Navigate(typeof(MainPage));
+                    Frame.Navigate(typeof(Image_Set));
                 }
                 else
                 {

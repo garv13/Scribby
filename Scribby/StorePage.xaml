@@ -88,7 +88,7 @@
                                       x:Name="Box"   
                                       
                            />
-                            <Button x:Name="SearchButton" Click="Button_Click" Grid.Column="1" Background="#0D4FB5" Foreground="White" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+                            <Button x:Name="SearchButton" Click="SearchButton_Click" Grid.Column="1" Background="#0D4FB5" Foreground="White" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
                                 <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="Assets/search-icon-hi.png"/>
                             </Button>
                             <GridView         
@@ -115,8 +115,8 @@
                                     <ColumnDefinition Width="0.3*"/>
                                     <ColumnDefinition Width="0.3*"/>
                                 </Grid.ColumnDefinitions>
-                                <HyperlinkButton Margin="15"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0"  Click="HyperlinkButton_Click_1" Content="Previous page" FontSize="{StaticResource SplitViewLargeNavFontSize}" Foreground="White" />
-                                <HyperlinkButton Margin="15"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="3" Click="HyperlinkButton_Click"  Content="Next Page" FontSize="{StaticResource SplitViewLargeNavFontSize}" Foreground="White" />
+                                <HyperlinkButton Margin="15"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0"  Click="HyperlinkButton_Click" Content="Previous page" FontSize="{StaticResource SplitViewLargeNavFontSize}" Foreground="White" />
+                                <HyperlinkButton Margin="15"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="3" Click="HyperlinkButton_Click_1"  Content="Next Page" FontSize="{StaticResource SplitViewLargeNavFontSize}" Foreground="White" />
                             </Grid>
                         </Grid>
                     </Grid>
