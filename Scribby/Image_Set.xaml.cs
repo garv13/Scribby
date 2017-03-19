@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -40,8 +42,6 @@ namespace Scribby
 
 
 
-        double yawangle = 330;
-        double pitcAngle = 290;
         DisplayRequest _displayRequest;
         Compass c;
         Image im;
@@ -49,7 +49,7 @@ namespace Scribby
         double yaw;
         double x, y;
         OrientationSensor or;
-        DispatcherTimer tim;
+        
         double wid, h, stepW, stepH, temppitch, tempyaw;
         double yaw5, pitch5;
         public Image_Set()
@@ -64,9 +64,7 @@ namespace Scribby
             or.ReportInterval = 4;
             or.ReadingChanged += Or_ReadingChanged;
             this.InitializeComponent();
-            tim = new DispatcherTimer();
-            tim.Interval = new TimeSpan(1000);
-            tim.Tick += Tim_Tick;
+            Geoposition location;
             //tim.Start();
             im = new Image();
             im.Width = 300;
@@ -104,7 +102,7 @@ namespace Scribby
 
         private void Geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
         {
-
+            
         }
 
         private void C_ReadingChanged(Compass sender, CompassReadingChangedEventArgs args)
@@ -114,23 +112,8 @@ namespace Scribby
             //Debug.WriteLine(lol.ToString());
         }
 
-        private void Mg_ReadingChanged(Magnetometer sender, MagnetometerReadingChangedEventArgs args)
-        {
-        }
-
-        private void Tim_Tick(object sender, object e)
-        {
-            TranslateTransform t = new TranslateTransform();
-            //temppitch = pitch;temproll = roll;
-
-            t.X = 100 + i / 2;
-            i++;
-            t.Y = i / 2;
-            //x = t.X;y = t.Y;
-            //Debug.WriteLine("lol");
-            im.RenderTransform = t;
-        }
-
+      
+        
         private async void Or_ReadingChanged(OrientationSensor sender, OrientationSensorReadingChangedEventArgs args)
         {
             //check angle here
@@ -142,9 +125,7 @@ namespace Scribby
             // roll (x-axis rotation)
             double t0 = +2.0 * (q.W * q.X + q.Y * q.Z);
             double t1 = +1.0 - 2.0 * (q.X * q.X + ysqr);
-            double roll = Math.Atan2(t0, t1);
-            roll = roll * 180 / Math.PI;
-
+            
             // pitch (y-axis rotati)
             double t2 = +2.0 * (q.W * q.Y - q.Z * q.X);
             t2 = t2 > 1.0 ? 1.0 : t2;
@@ -169,20 +150,9 @@ namespace Scribby
                 // Debug.WriteLine(yaw.ToString() + "," + pitch.ToString());
 
 
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-
-                    TranslateTransform t = new TranslateTransform();
-                    x = (tempyaw - yaw) * stepW;
-                    y = (temppitch - pitch) * stepH;
-                    im.RenderTransform = t;
-                    temppitch = pitch;
-                    tempyaw = yaw;
-                    t.X = (Math.Abs(yawangle - yaw)) * stepW;
-                    t.Y = (Math.Abs(pitcAngle - pitch)) * stepH;
-                });
+                
             }
-            Debug.WriteLine(x.ToString() + "," + y.ToString());
+            
         }
 
         private async void Application_Suspending(object sender, SuspendingEventArgs e)
@@ -268,6 +238,37 @@ namespace Scribby
                 MessageDialog msgbox = new MessageDialog("Some error occured please re capture the image");
                 await msgbox.ShowAsync();
             }
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Note n = new Note();
+            //must add user id and user access
+            n.Like = 0;
+            n.Media_Type = "Image";
+            n.store = false;
+            n.PackId = null;
+            CompassReading reading = c.GetCurrentReading();
+            n.Yaw  = reading.HeadingTrueNorth.Value;
+            var credentials = new StorageCredentials("vrdreamer", "lTD5XmjEhvfUsC/vVTLsl01+8pJOlMdF/ri7W1cNOydXwSdb8KQpDbiveVciOqdIbuDu6gJW8g44YtVjuBzFkQ==");
+            var client = new CloudBlobClient(new Uri("https://vrdreamer.blob.core.windows.net/"), credentials);
+            var container = client.GetContainerReference("first");
+            await container.CreateIfNotExistsAsync();
+
+            var perm = new BlobContainerPermissions();
+            perm.PublicAccess = BlobContainerPublicAccessType.Blob;
+            await container.SetPermissionsAsync(perm);
+            var blockBlob = container.GetBlockBlobReference(Guid.NewGuid().ToString() + ".png");
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            StorageFile imgFile = await localFolder.CreateFileAsync("ImageFile.png", CreationCollisionOption.OpenIfExists); // image to be uploaded
+
+            using (var fileStream = await imgFile.OpenSequentialReadAsync())
+            {
+                
+                //await blockBlob.UploadFromStreamAsync(fileStream);
+                await blockBlob.UploadFromFileAsync(imgFile);
+            }
+            n.Media_Url = blockBlob.StorageUri.PrimaryUri.ToString();
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
