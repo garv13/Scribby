@@ -267,6 +267,23 @@ namespace Scribby
 
             if (pitch < 0)
                 pitch += 360;
+            var accessStatus = await Geolocator.RequestAccessAsync();
+            Geoposition pos = null;
+            switch (accessStatus)
+            {
+                case GeolocationAccessStatus.Allowed:
+                    // _rootPage.NotifyUser("Waiting for update...", NotifyType.StatusMessage);
+
+                    // If DesiredAccuracy or DesiredAccuracyInMeters are not set (or value is 0), DesiredAccuracy.Default is used.
+                    Geolocator geolocator = new Geolocator { DesiredAccuracyInMeters = 2, MovementThreshold = 2 };
+
+                    // Subscribe to the StatusChanged event to get updates of location status changes.
+                    geolocator.PositionChanged += Geolocator_PositionChanged;
+
+                    // Carry out the operation.
+                    pos = await geolocator.GetGeopositionAsync();
+                    break;
+            }
 
             var credentials = new StorageCredentials("vrdreamer", "lTD5XmjEhvfUsC/vVTLsl01+8pJOlMdF/ri7W1cNOydXwSdb8KQpDbiveVciOqdIbuDu6gJW8g44YtVjuBzFkQ==");
             var client = new CloudBlobClient(new Uri("https://vrdreamer.blob.core.windows.net/"), credentials);
@@ -289,6 +306,8 @@ namespace Scribby
             n.Media_Url = blockBlob.StorageUri.PrimaryUri.ToString();
             n.Pitch = pitch;
             n.UserId = "";
+            n.gps_coordinate = pos.Coordinate.Point.Position.Latitude.ToString() + "," + pos.Coordinate.Point.Position.Longitude.ToString();
+            await App.MobileService.GetTable<Note>().InsertAsync(n);
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)

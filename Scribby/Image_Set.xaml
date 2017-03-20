@@ -47,7 +47,7 @@
         <SplitView.Content>
             <Grid x:Name="lol" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <StackPanel>
-                    <Button Height="50" HorizontalAlignment="Stretch" Content="lol" Click="Button_Click"/>
+                    <Button Height="50" HorizontalAlignment="Stretch" Content="Save" Click="Button_Click"/>
                     <CaptureElement Name="PreviewControl" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 </StackPanel>
 
