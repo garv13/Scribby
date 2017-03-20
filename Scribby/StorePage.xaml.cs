@@ -42,7 +42,7 @@ namespace Scribby
             foreach (Pack lol in items)
             {
                 temp = new StoreListing();
-                temp.Id = lol.Id;
+                temp.Id = lol.notes;
                 temp.Title = lol.Title;
                 temp.Image = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(lol.Icon_Url));
                 temp.Price = "Price: " + lol.Price.ToString();
