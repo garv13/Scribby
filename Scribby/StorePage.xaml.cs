@@ -23,7 +23,7 @@ namespace Scribby
     /// </summary>
     public sealed partial class StorePage : Page
     {
-
+        List<StoreListing> StoreList = new List<StoreListing>();
         private IMobileServiceTable<Pack> Table = App.MobileService.GetTable<Pack>();
         private MobileServiceCollection<Pack,Pack> items;
         private int page = 0;
@@ -37,19 +37,18 @@ namespace Scribby
         Pack i = new Pack();
         private async void StorePage_Loaded(object sender, RoutedEventArgs e)
         {
-            Pack temp;
-            items = await Table.Take(15).ToCollectionAsync();
+            StoreListing temp;
+            items = await Table.Take(10).ToCollectionAsync();
             foreach (Pack lol in items)
             {
-                temp = new Pack();
+                temp = new StoreListing();
                 temp.Id = lol.Id;
                 temp.Title = lol.Title;
-                temp.No_Of_Purchases = lol.No_Of_Purchases;
-                //temp.Image = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(lol.Icon_Url));
-                temp.Price = lol.Price;
-//                StoreList.Add(temp);
+                temp.Image = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(lol.Icon_Url));
+                temp.Price = "Price: " + lol.Price.ToString();
+                StoreList.Add(temp);
             }
-
+            StoreListView.DataContext = StoreList;
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
@@ -104,7 +103,8 @@ namespace Scribby
 
         private void StoreListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-
+            StoreListing sent = e.ClickedItem as StoreListing;
+            Frame.Navigate(typeof(StoreDetailPage), sent);
         }
     }
 }

@@ -120,6 +120,7 @@
     <Compile Include="StoreDetailPage.xaml.cs">
       <DependentUpon>StoreDetailPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StoreListing.cs" />
     <Compile Include="StorePage.xaml.cs">
       <DependentUpon>StorePage.xaml</DependentUpon>
     </Compile>
