@@ -49,7 +49,7 @@ namespace Scribby
         double yaw;
         double x, y;
         OrientationSensor or;
-        
+        Geoposition pos;
         double wid, h, stepW, stepH, temppitch, tempyaw;
         double yaw5, pitch5;
         public Image_Set()
@@ -64,7 +64,7 @@ namespace Scribby
             or.ReportInterval = 4;
             or.ReadingChanged += Or_ReadingChanged;
             this.InitializeComponent();
-            Geoposition location;
+           
             //tim.Start();
             im = new Image();
             im.Width = 300;
@@ -89,8 +89,8 @@ namespace Scribby
                     geolocator.PositionChanged += Geolocator_PositionChanged;
 
                     // Carry out the operation.
-                    Geoposition pos = await geolocator.GetGeopositionAsync();
-
+                pos = await geolocator.GetGeopositionAsync();
+                    but.Content = "Save";
                     break;
             }
 
@@ -114,7 +114,7 @@ namespace Scribby
 
       
         
-        private async void Or_ReadingChanged(OrientationSensor sender, OrientationSensorReadingChangedEventArgs args)
+        private void Or_ReadingChanged(OrientationSensor sender, OrientationSensorReadingChangedEventArgs args)
         {
             //check angle here
             OrientationSensorReading reading = args.Reading;
@@ -267,25 +267,12 @@ namespace Scribby
 
             if (pitch < 0)
                 pitch += 360;
-            var accessStatus = await Geolocator.RequestAccessAsync();
-            Geoposition pos = null;
-            switch (accessStatus)
+
+
+
+            if (pos != null)
             {
-                case GeolocationAccessStatus.Allowed:
-                    // _rootPage.NotifyUser("Waiting for update...", NotifyType.StatusMessage);
-
-                    // If DesiredAccuracy or DesiredAccuracyInMeters are not set (or value is 0), DesiredAccuracy.Default is used.
-                    Geolocator geolocator = new Geolocator { DesiredAccuracyInMeters = 2, MovementThreshold = 2 };
-
-                    // Subscribe to the StatusChanged event to get updates of location status changes.
-                    geolocator.PositionChanged += Geolocator_PositionChanged;
-
-                    // Carry out the operation.
-                    pos = await geolocator.GetGeopositionAsync();
-                    break;
-            }
-
-            var credentials = new StorageCredentials("vrdreamer", "lTD5XmjEhvfUsC/vVTLsl01+8pJOlMdF/ri7W1cNOydXwSdb8KQpDbiveVciOqdIbuDu6gJW8g44YtVjuBzFkQ==");
+                var credentials = new StorageCredentials("vrdreamer", "lTD5XmjEhvfUsC/vVTLsl01+8pJOlMdF/ri7W1cNOydXwSdb8KQpDbiveVciOqdIbuDu6gJW8g44YtVjuBzFkQ==");
             var client = new CloudBlobClient(new Uri("https://vrdreamer.blob.core.windows.net/"), credentials);
             var container = client.GetContainerReference("first");
             await container.CreateIfNotExistsAsync();
@@ -305,9 +292,18 @@ namespace Scribby
             }
             n.Media_Url = blockBlob.StorageUri.PrimaryUri.ToString();
             n.Pitch = pitch;
-            n.UserId = "";
-            n.gps_coordinate = pos.Coordinate.Point.Position.Latitude.ToString() + "," + pos.Coordinate.Point.Position.Longitude.ToString();
-            await App.MobileService.GetTable<Note>().InsertAsync(n);
+            n.UserId = "1052550e-42f6-4096-b4fb-1b648af1bab6";
+            
+                n.gps_coordinate = pos.Coordinate.Point.Position.Latitude.ToString() + "," + pos.Coordinate.Point.Position.Longitude.ToString();
+
+                await App.MobileService.GetTable<Note>().InsertAsync(n);
+                Frame.Navigate(typeof(MainPage));
+            }
+            else
+            {
+
+            }
+           
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)

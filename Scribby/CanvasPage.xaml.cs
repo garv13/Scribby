@@ -131,7 +131,7 @@ namespace Scribby
             Color_Grid.Visibility = Visibility.Collapsed;
             ColorSelectDone.Visibility = Visibility.Collapsed;
             InkDrawingAttributes drawingAttributes = new InkDrawingAttributes();
-            drawingAttributes.Color = colorPicker.SelectedColor;
+          //  drawingAttributes.Color = colorPicker.SelectedColor;
             drawingAttributes.IgnorePressure = false;
             drawingAttributes.FitToCurve = true;
             DrawingArea.InkPresenter.UpdateDefaultDrawingAttributes(drawingAttributes);
